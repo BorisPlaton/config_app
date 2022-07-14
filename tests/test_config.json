@@ -1,0 +1,8 @@
+{
+  "test_var_1": 1,
+  "test_var_2": "test_var_2 value",
+  "test_var_3": 3,
+  "dict_var": {
+    "one": 1
+  }
+}
