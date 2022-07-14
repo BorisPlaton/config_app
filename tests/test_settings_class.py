@@ -1,8 +1,8 @@
 from pathlib import Path
 from unittest import TestCase
 
-from config.exceptions import UnknownFileExtension
-from config.instance import Settings
+from config import UnknownFileExtension
+from config import Settings
 import settings_test as st
 
 
@@ -99,3 +99,35 @@ class SettingsClass(TestCase):
             'settings_test',
             {'another_var': str(Path(__file__).parent / 'test_ini_config.ini')}
         ))
+
+    def test_setup_config_files_after_creating_an_instance_of_the_class(self):
+        settings_instance = Settings('settings_test')
+        self.assertTrue(settings_instance)
+
+        self.assertRaises(AttributeError, lambda: settings_instance.ini)
+        self.assertRaises(AttributeError, lambda: settings_instance.test_json)
+        self.assertRaises(AttributeError, lambda: settings_instance.cfg)
+
+        settings_instance.setup_config_files({
+            'ini': Path(__file__).parent / 'test_ini_config.ini',
+            'cfg': Path(__file__).parent / 'test_cfg_file.cfg',
+            'test_json': Path(__file__).parent / 'test_config.json',
+        })
+
+        self.assertTrue(settings_instance.ini)
+        self.assertTrue(settings_instance.test_json)
+        self.assertTrue(settings_instance.cfg)
+
+        self.assertEqual(settings_instance.cfg['CFG']['cfg var'], '1')
+        self.assertEqual(settings_instance.cfg['CFG']['not cfg number'], 'cfg')
+        self.assertRaises(KeyError, lambda: settings_instance.cfg['CFG']['var'])
+
+        self.assertEqual(settings_instance.ini['INI']['var'], '2')
+        self.assertEqual(settings_instance.ini['INI']['not number'], 'word')
+        self.assertEqual(settings_instance.ini['INI']['number'], 'some interesting number')
+        self.assertTrue(settings_instance.test_json)
+        self.assertEqual(settings_instance.test_json['test_var_1'], 1)
+        self.assertEqual(settings_instance.test_json['test_var_2'], 'test_var_2 value')
+        self.assertEqual(settings_instance.test_json['test_var_3'], 3)
+        self.assertEqual(settings_instance.test_json['dict_var']['one'], 1)
+        self.assertRaises(KeyError, lambda: settings_instance.test_json['dict_var']['not existed var'])

@@ -42,8 +42,8 @@ class Settings:
 
     def get_config_class(self, path_to_file: SomePath) -> ConfigClass:
         """
-        Узнаёт, какой формат имеет файл и возвращает класс, который
-        сможет загрузить данные из него.
+        Узнаёт, какой формат имеет файл и возвращает экземпляр класса,
+        который сможет загрузить данные из него.
         """
         file_extension = self.get_file_extension(path_to_file)
         match file_extension:
