@@ -8,19 +8,20 @@
 ## API
 Чтоб создать экземпляр настроек класса, следует сначала создать сами данные, с которыми мы будем взаимодействовать в будущем. 
 Создадим файл `settings.py` и запишем в него следующие значения:
-```
+```py
 SOME_INT = 1
 SOME_STRING = 'str'
 SOME_DICT = {'foo': 'bar'}
 ```
 Проинициализируем класс `config.instance.Settings` с названием файла настроек:
-```
+```py
 from config import Settings
+
 
 settings = Settings('settings')
 ```
 Теперь мы можем обращаться к переменным из этого файла, как к атрибутам экземпляра класса:
-``` 
+``` py
 assert settings.SOME_INT == 1  # True
 assert settings.SOME_STRING == 'str'  # True
 assert settings.SOME_DICT == {'foo': 'bar'}  # True
@@ -29,7 +30,7 @@ assert settings.SOME_DICT == {'foo': 'bar'}  # True
 
 **json_config.json**
 
-```
+```json
 {
     "first_var": 1,
     "second_var": 2
@@ -48,8 +49,13 @@ fifth_var=5
 sixth_var=6
 ```
 Добавим их в наш экземпляр класса:
-```
+```py
 from pathlib import Path
+
+from config import Settings
+
+
+settings = Settings('settings')
 
 settings.setup_config_files({
     'some_name_for_ini': Path(__file__).parent / 'ini_config.ini',
@@ -58,7 +64,7 @@ settings.setup_config_files({
 })
 ```
 Теперь мы можем обращаться к данным из этих файлов следующим образом:
-```
+```py
 assert settings.some_name_for_ini['fifth_var'] == '5'  # True
 assert settings.some_name_for_ini['sixth_var'] == '6'  # True
 
@@ -69,8 +75,9 @@ assert settings.some_name_for_cfg['third_var'] == '3'  # True
 assert settings.some_name_for_cfg['fourth_var'] == '4'  # True
 ```
 Можно всё это сделать сразу при инициализации экземпляра класса:
-```
+```py
 from config import Settings
+
 
 settings2 = Settings(
     'settings',
