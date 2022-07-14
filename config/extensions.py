@@ -2,7 +2,7 @@ import json
 from configparser import ConfigParser
 from enum import Enum
 
-from core.abstract import AbstractConfig
+from config.abstract import AbstractConfig
 
 
 class AvailableExtensions(Enum):

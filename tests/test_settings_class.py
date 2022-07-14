@@ -1,8 +1,8 @@
 from pathlib import Path
 from unittest import TestCase
 
-from core.exceptions import UnknownFileExtension
-from core.instance import Settings
+from config.exceptions import UnknownFileExtension
+from config.instance import Settings
 import settings_test as st
 
 
