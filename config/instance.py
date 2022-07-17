@@ -65,12 +65,13 @@ class Settings:
                 return extension
         raise UnknownFileExtension(f'Неизвестное разрешение файла `{config_file}`')
 
-    def __init__(self, settings_file: str, config_files: dict[str, SomePath] = None):
+    def __init__(self, settings_file: str = None, config_files: dict[str, SomePath] = None):
         """
         Загружает значения и устанавливает их как атрибуты класса из
         аргумента `settings_file`, который должен быть названием *.py файла.
         Также загружает конфиг файлы, если они переданы аргументом `config_files`.
         """
-        self.setup_config_from_settings(settings_file)
+        if settings_file:
+            self.setup_config_from_settings(settings_file)
         if config_files:
             self.setup_config_files(config_files)
